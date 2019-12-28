@@ -2,16 +2,13 @@
   <div id="app">
     <b-container class="container">
       <b-row class="row">
-        <b-col class="column" sm="8">
+        <b-col class="column" sm="12">
           <MapPane
             :center="center"
             :zoom="zoom"
             :geojsons="geojsons"
             @onGeojsonsEditted="addGeojson"
           />
-        </b-col>
-        <b-col class="column" sm="4">
-          <p>AAAAAAAAAAAAA</p>
         </b-col>
       </b-row>
     </b-container>

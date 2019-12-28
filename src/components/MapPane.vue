@@ -1,16 +1,15 @@
 <template>
-    <div class="mapPane"
-        @dragover.prevent="dragover"
-        @drop.prevent="drop">
+    <div class="mapPane">
         <l-map
             :zoom="zoom"
             :center="center"
             :preferCanvas="true"
+            @baselayerchange="onRouteChanged"
         >
             <!--レイヤーコントロール-->
             <l-control-layers
                 position="topright"
-                :collapsed="false"
+                :collapsed="true"
             ></l-control-layers>
             <l-control-scale
                 position="bottomleft"
@@ -33,7 +32,7 @@
                 :geojson="feature"
                 :options="routesOptions"
                 :options-style="styleFunction"
-                layer-type="overlay"
+                layer-type="base"
                 @click="onRoutesClick"
             ></l-geo-json>
             <l-geo-json
@@ -111,22 +110,8 @@
             }
         },
         methods: {
-            dragover: function(event) {
-                return event
-            },
-            drop: function(event) {
-                let fileList = event.dataTransfer.files;
-                let vm = this
-                for ( let i = 0; i < fileList.length; i++ ) {
-                    let reader=new FileReader()
-                    reader.onload=function(e){
-                        let geojson = JSON.parse(reader.result)
-                        geojson.name = fileList[i].name
-                        let geojsons = vm.geojsons.push(geojson)
-                        vm.$emit("onGeojsonEditted", geojsons)
-                    }
-                    reader.readAsText(fileList[i])
-                }
+            onRouteChanged: function (event) {
+                console.log("changed")
             },
             onRoutesClick: function (event) {
                 let selectedBusstopsGeojson = {"type":"FeatureCollection",
